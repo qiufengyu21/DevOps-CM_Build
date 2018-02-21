@@ -1,6 +1,6 @@
 ---
 # Install Java 8, git, maven, and MySql
-- hosts: all
+- hosts: aws
   sudo: yes
   roles:
     - java8
@@ -60,3 +60,4 @@
       becomes: yes
       args:
         chdir: "/home/ubuntu/iTrust2-v2/iTrust2"
+...
