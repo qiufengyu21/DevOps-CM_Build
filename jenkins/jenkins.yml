@@ -1,0 +1,60 @@
+---
+- hosts: 192.168.33.14
+  gather_facts: yes
+  vars:
+    - jenkins_home: "/var/lib/jenkins"
+    - jenkins_user: "jenkins"
+  become: yes
+  tasks:
+    - name: add jenkins public key
+      apt_key:
+        url: http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key
+        state: present
+
+    - name: install dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items:
+        - default-jdk
+        - libfontconfig
+        - libffi-dev
+        - libncurses5-dev
+
+    - name: add jenkins to trusted sources list
+      apt_repository:
+        repo: 'deb http://pkg.jenkins-ci.org/debian binary/'
+        state: present
+
+    - name: update packages
+      apt:
+        update_cache: yes
+
+    - name: install jenkins
+      apt:
+        name: jenkins
+        state: latest
+
+    #- name: Bypass - jenkins.install.InstallUtil.lastExecVersion
+    #  become: yes
+    #  copy:
+    #    src: "{{ jenkins_home }}/jenkins.install.UpgradeWizard.state"
+    #    dest: "{{ jenkins_home }}/jenkins.install.InstallUtil.lastExecVersion"
+    #    owner: "{{ jenkins_user }}"
+    #    group: "{{ jenkins_user }}"
+    #    remote_src: yes
+
+    #- stat:
+    #    path: "{{ jenkins_home }}/secrets/initialAdminPassword"
+    #  register: adminpassword
+
+    #- name: Bypass - initialAdminPassword
+    #  shell: "mv {{ jenkins_home }}/secrets/initialAdminPassword /root"
+    #  notify:
+    #    - restart jenkins
+
+    - name: start jenkins
+      service:
+        name: jenkins
+        state: started

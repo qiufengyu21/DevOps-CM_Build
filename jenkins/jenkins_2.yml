@@ -1,0 +1,85 @@
+---
+- hosts: 192.168.33.14
+  gather_facts: yes
+  vars:
+    - jenkins_home: "/var/lib/jenkins"
+    - jenkins_user: "jenkins"
+  become: yes
+  tasks:
+    - name: add jenkins public key
+      apt_key:
+        url: http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key
+        state: present
+
+    - name: install dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items:
+        - default-jdk
+        - libfontconfig
+        - libffi-dev
+        - libncurses5-dev
+        - groovy
+
+    - name: add jenkins to trusted sources list
+      apt_repository:
+        repo: 'deb http://pkg.jenkins-ci.org/debian binary/'
+        state: present
+
+    - name: update packages
+      apt:
+        update_cache: yes
+
+    - name: install jenkins
+      apt:
+        name: jenkins
+        state: latest
+
+    - name: jenkins.install.InstallUtil.lastExecVersion
+      become_user: "{{ jenkins_user }}"
+      shell: "echo 2.0 > jenkins.install.UpgradeWizard.state"
+      args:
+        chdir: "{{ jenkins_home }}"
+
+    - name: create init-groovy.d
+      become_user: "{{ jenkins_user }}"
+      file:
+        path: "{{ jenkins_home }}/init-groovy.d"
+        state: directory
+        owner: "{{ jenkins_user }}"
+        group: "{{ jenkins_user }}"
+        mode: 0770
+
+    - name: basic-security.groovy
+      become_user: "{{ jenkins_user }}"
+      copy:
+        src: "/home/vagrant/examples/project_1/basic-security.groovy"
+        dest: "{{ jenkins_home }}/init-groovy.d/"
+        owner: "{{ jenkins_user }}"
+        group: "{{ jenkins_user }}"
+        mode: 0770
+
+    #- name: Bypass - jenkins.install.InstallUtil.lastExecVersion
+    #  become: yes
+    #  copy:
+    #    src: "{{ jenkins_home }}/jenkins.install.UpgradeWizard.state"
+    #    dest: "{{ jenkins_home }}/jenkins.install.InstallUtil.lastExecVersion"
+    #    owner: "{{ jenkins_user }}"
+    #    group: "{{ jenkins_user }}"
+    #    remote_src: yes
+
+    #- stat:
+    #    path: "{{ jenkins_home }}/secrets/initialAdminPassword"
+    #  register: adminpassword
+
+    #- name: Bypass - initialAdminPassword
+    #  shell: "mv {{ jenkins_home }}/secrets/initialAdminPassword /root"
+    #  notify:
+    #    - restart jenkins
+
+    - name: start jenkins
+      service:
+        name: jenkins
+        state: restarted
