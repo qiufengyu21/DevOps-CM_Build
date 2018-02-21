@@ -1,0 +1,10 @@
+---
+- name: Add the Maven repo for the latest version
+  apt_repository: repo='ppa:andrei-pozolotin/maven3' state=present update_cache=yes
+  become: yes
+
+
+- name: Install latest version of maven
+  become: yes
+  apt: pkg=maven3 state=latest update_cache=yes
+...
