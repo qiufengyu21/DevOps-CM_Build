@@ -1,5 +1,6 @@
 # Ansible_For_iTrustv2
 Ansible script for provisioning iTrust2 on AWS.
+
 Steps:
 - npm install
 - npm install aws-sdk
