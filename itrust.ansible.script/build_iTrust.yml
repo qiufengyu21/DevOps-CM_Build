@@ -1,0 +1,63 @@
+---
+# Install Java 8, git, maven, and MySql
+- hosts: aws
+  sudo: yes
+  roles:
+    - java8
+    - git
+    - maven
+    - sql
+
+# Clone iTrust repo, download Tomcat
+- hosts: aws
+  sudo: yes
+  vars_prompt:
+    - name: "git_username"
+      prompt: "Please enter your github username"
+      default: "qyu4"
+      private: no
+
+    - name: "git_password"
+      prompt: "Please enter your github password"
+      private: yes
+
+  tasks:
+    - name: Clone iTrust repository
+      git:
+        repo: https://{{git_username}}:{{git_password}}@github.ncsu.edu/engr-csc326-staff/iTrust2-v2.git
+        dest: /home/ubuntu/iTrust2-v2/
+        clone: yes
+
+    - name: Rename the db.properties.template file 
+      shell: cp db.properties.template db.properties
+      args:
+        chdir: /home/ubuntu/iTrust2-v2/iTrust2/src/main/java/
+
+    - name: Rename the hibernate.properties.template file 
+      shell: cp hibernate.properties.template hibernate.properties
+      args:
+        chdir: /home/ubuntu/iTrust2-v2/iTrust2/src/main/resources/
+
+    - name: Rename the email.properties.template file
+      shell: cp email.properties.template email.properties
+      args:
+        chdir: /home/ubuntu/iTrust2-v2/iTrust2/src/main/java/
+
+    - name: Download Tomcat and extract
+      unarchive:
+        src: http://mirror.cc.columbia.edu/pub/software/apache/tomcat/tomcat-9/v9.0.5/bin/apache-tomcat-9.0.5.tar.gz
+        dest: /home/ubuntu/
+        remote_src: yes
+
+    - name: Build the database and create sample data
+      shell: sudo mvn process-test-classes
+      become: yes
+      args:
+        chdir: "/home/ubuntu/iTrust2-v2/iTrust2"
+
+    - name: Run iTrust
+      shell: nohup bash -c "mvn jetty:run" & 
+      becomes: yes
+      args:
+        chdir: "/home/ubuntu/iTrust2-v2/iTrust2"
+...
