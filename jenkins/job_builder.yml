@@ -1,0 +1,58 @@
+---
+- hosts: 192.168.33.14
+  gather_facts: yes
+  vars:
+    - jenkins_home: "/var/lib/jenkins"
+    - jenkins_user: "jenkins"
+    - admin_password: "fc27de1a60fa453586dc929be5eb46a8"
+    - admin_token: "92d8953ebcf7efb9491e8b61d6ff111f"
+    - home_dir: "/home/vagrant/project_1"
+    - jenkins_ip: 127.0.0.1
+    - jenkins_port: 8080
+  become: yes
+  tasks:
+    # INSTALL
+    - name: install pip
+      apt:
+        name: "{{ item }}"
+      with_items:
+        - python3-pip
+        - python3-jenkins
+        - python3-lxml
+        - python3-setuptools
+    - name: install jenkins job builder
+      pip:
+        name: jenkins-job-builder
+    - name: install plugins
+      jenkins_plugin:
+        name: "{{ item }}"
+        url: "http://admin:{{ admin_password }}@{{ jenkins_ip }}:{{ jenkins_port }}"
+      with_items:
+        - git
+        - execute-shell
+    - name: restart jenkins
+      service:
+        name: jenkins
+        state: restarted
+
+    # COPY JOBS
+    - name: create jenkins_jobs folder
+      file:
+        path: "/etc/jenkins_jobs"
+        state: directory
+    - name: copy jenkins_jobs.ini template
+      template:
+        src: "{{ home_dir }}/templates/jenkins_jobs.ini.j2"
+        dest: "/etc/jenkins_jobs/jenkins_jobs.ini"
+
+    # CONFIGURE & BUILD
+    - name: copy jobs
+      copy:
+        src: "{{ home_dir }}/jobs/"
+        dest: "{{ jenkins_home }}/jobs/"
+        directory_mode: yes
+        mode: 0755
+    - name: configure jobs
+      command: "jenkins-jobs update {{ jenkins_home }}/jobs"
+#      args:
+ #       chdir: "{{ jenkins_home }}"
