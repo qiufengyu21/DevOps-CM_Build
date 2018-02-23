@@ -69,13 +69,6 @@
           line: "{{ jenkins_java_args }}"
         become: yes
 
-      - name: Immediately restart jenkins
-        service: name=jenkins state=restarted
-        become: yes
-
-      - name: Wait for jenkins to start
-        wait_for: port={{ jenkins_http_port }} delay=30
-
       - name: Create Groovy Script directory
         file:
           path: "{{ jenkins_home }}/init.groovy.d"
