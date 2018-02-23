@@ -65,7 +65,7 @@ Following are the detailed report regarding steps involved to configure iTrust a
 		
 3. **Learnings**
 
-	1. **Memory Management**
+	1. **Memory Management and Resource Requirements**
 	
 		From the above issue we could learn the importance of memory management. And how such subtle differences can affect the execution of an application. We also learned that we must be aware of resource requirements of an application and we must provision servers based on such requirements.
 	
