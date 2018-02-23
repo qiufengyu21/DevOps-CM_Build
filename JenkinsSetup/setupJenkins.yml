@@ -1,0 +1,147 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+    plugins:
+      - maven-plugin
+      - github
+      - postbuildscript
+      - postbuild-task
+    jenkins_java_args: 'JAVA_ARGS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
+    jenkins_home: /var/lib/jenkins
+    jenkins_hostname: 127.0.0.1
+    jenkins_http_port: 8080
+    jenkins_admin_username: admin
+    jenkins_admin_password: admin
+    jenkins_jar_location: /home/vagrant/jenkins-cli.jar
+    jenkins_default_file: /etc/default/jenkins
+    jenkins_params:
+      url_username: "{{ jenkins_admin_username }}"
+      validate_certs: no
+    groovy_file_path: /home/vagrant/JenkinsSetup
+
+  tasks:
+      - name: Install Java 8 PreReq
+        apt: name=python-software-properties
+        become: yes
+
+      - name: Add Java 8 Repo
+        apt_repository: repo='ppa:webupd8team/java'
+        become: yes
+
+      - name: Accept Oracle License
+        debconf: name=oracle-java8-installer question=shared/accepted-oracle-license-v1-1 vtype=select value=true
+        become: yes
+
+      - name: Install Java 8
+        apt: name=oracle-java8-installer force=yes update_cache=yes cache_valid_time=3600
+        become: yes
+
+      - name: Update apt package
+        become: yes
+        action: apt update_cache=yes
+
+      - name: Install Maven
+        become: yes
+        apt: pkg=maven state=present update_cache=yes cache_valid_time=3600
+
+      - name: Download Jenkins
+        shell: wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+        become: yes
+
+      - name: Update jenkins source list
+        shell: sh -c 'echo deb http://pkg.jenkins-ci.org/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+        become: yes
+
+      - name: Update apt package
+        become: yes
+        action: apt update_cache=yes
+
+      - name: Install Jenkins
+        apt: pkg=jenkins state=present install_recommends=yes update_cache=yes cache_valid_time=3600
+        become: yes
+
+      - name: Configure JVM Args
+        lineinfile:
+          dest: /etc/default/jenkins
+          regexp: '^JAVA_ARGS='
+          line: "{{ jenkins_java_args }}"
+        become: yes
+
+      - name: Immediately restart jenkins
+        service: name=jenkins state=restarted
+        become: yes
+
+      - name: Wait for jenkins to start
+        wait_for: port={{ jenkins_http_port }} delay=30
+
+      - name: Create Groovy Script directory
+        file:
+          path: "{{ jenkins_home }}/init.groovy.d"
+          state: directory
+          mode: 0755
+        become: yes
+
+      - name: Copy Groovy Script for default user creation
+        template:
+          force: yes
+          src: "{{ groovy_file_path }}/jenkins_script.groovy.j2"
+          dest: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
+          mode: 0755
+        become: yes
+
+      - name: Restart jenkins
+        service: name=jenkins state=restarted
+        become: yes
+
+      - name: Wait while Jenkins starts
+        wait_for: port={{ jenkins_http_port }} delay=30
+
+      - name: Remove Groovy Script
+        file:
+          path: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
+          state: absent
+        become: yes
+
+      - name: Disable setup wizard
+        jenkins_script:
+          script: |
+            import static jenkins.model.Jenkins.instance as jenkins
+            import jenkins.install.InstallState
+            if (!jenkins.installState.isSetupComplete()) {
+              InstallState.INITIAL_SETUP_COMPLETED.initializeState()
+            }
+          user: "{{ jenkins_admin_username }}"
+          password: "{{ jenkins_admin_password }}"
+
+      - name: Get client JAR file
+        get_url:
+          url: http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/jnlpJars/jenkins-cli.jar
+          dest: /home/vagrant/
+          mode: 755
+        become: yes
+
+      - name: Install Jenkins Plugins
+        jenkins_plugin:
+          name: "{{ item }}"
+          params: "{{ jenkins_params }}"
+          url_password: "{{ jenkins_admin_password }}"
+          url: "http://{{jenkins_hostname}}:{{jenkins_http_port}}"
+        with_items: "{{ plugins }}"
+
+      - name: Checking Jenkins State
+        service:
+          name: jenkins
+          state: started
+        become: yes
+
+      - name: Restart Jenkins
+        service: name=jenkins state=restarted
+        become: yes
+
+      - name: Wait while Jenkins starts
+        wait_for:
+          host: "{{ jenkins_hostname }}"
+          port: "{{ jenkins_http_port }}"
+          delay: 30
