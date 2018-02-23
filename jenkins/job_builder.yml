@@ -1,12 +1,13 @@
 ---
-- hosts: 192.168.33.14
+- hosts: localhost
+  connection: local
   gather_facts: yes
   vars:
     - jenkins_home: "/var/lib/jenkins"
     - jenkins_user: "jenkins"
-    - admin_password: "fc27de1a60fa453586dc929be5eb46a8"
-    - admin_token: "92d8953ebcf7efb9491e8b61d6ff111f"
-    - home_dir: "/home/vagrant/project_1"
+    - admin_password: "admin"
+    - admin_token: "7913bc559f169b4bcfc599360ce4d934"
+    - home_dir: "/home/vagrant/jenkins"
     - jenkins_ip: 127.0.0.1
     - jenkins_port: 8080
   become: yes
@@ -16,24 +17,25 @@
       apt:
         name: "{{ item }}"
       with_items:
-        - python3-pip
-        - python3-jenkins
-        - python3-lxml
-        - python3-setuptools
+        - python-pip
+
+#        - python3-jenkins
+#        - python3-lxml
+#        - python3-setuptools
     - name: install jenkins job builder
       pip:
         name: jenkins-job-builder
-    - name: install plugins
-      jenkins_plugin:
-        name: "{{ item }}"
-        url: "http://admin:{{ admin_password }}@{{ jenkins_ip }}:{{ jenkins_port }}"
-      with_items:
-        - git
-        - execute-shell
-    - name: restart jenkins
-      service:
-        name: jenkins
-        state: restarted
+#    - name: install plugins
+#      jenkins_plugin:
+#        name: "{{ item }}"
+#        url: "http://admin:{{ admin_password }}@{{ jenkins_ip }}:{{ jenkins_port }}"
+#      with_items:
+#        - git
+#        - execute-shell
+#    - name: restart jenkins
+#      service:
+#        name: jenkins
+#        state: restarted
 
     # COPY JOBS
     - name: create jenkins_jobs folder
@@ -53,6 +55,11 @@
         directory_mode: yes
         mode: 0755
     - name: configure jobs
-      command: "jenkins-jobs update {{ jenkins_home }}/jobs"
-#      args:
- #       chdir: "{{ jenkins_home }}"
+      shell: "jenkins-jobs update jobs"
+      args:
+        chdir: "{{ jenkins_home }}"
+      register: output
+
+    - name: say what
+      debug:
+        var: output
