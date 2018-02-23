@@ -1,26 +1,33 @@
 ---
-- hosts: localhost
+- hosts: new_droplet
+  gather_facts: no
+  remote_user: root
   vars:
     mongo_user: admin
     mongo_password: admin123 
     git_repo_folder: /home/vagrant/checkbox.io
+    ansible_python_interpreter: /usr/bin/python3
   environment:
     MONGO_PORT: 5000
     MONGO_IP: 127.0.0.1
     MONGO_USER: "{{ mongo_user }}"
     MONGO_PASSWORD: "{{ mongo_password }}"
+  
   tasks:
-  - name: add key for mondodb
+  
+  - name: add key for mongodb repo
     apt_key:
       keyserver: keyserver.ubuntu.com
       id: 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+  
   - name: add mongodb repo
     become: yes
     become_method: sudo
     apt_repository:
       repo: deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse
       state: present
-  - name: install mongodb, nodejs, npm, nginx and pip
+  
+  - name: install mongodb, nodejs, npm, nginx and pip3
     become: yes
     become_method: sudo
     apt: pkg={{ item }} state=installed update_cache=true cache_valid_time=36000
@@ -29,10 +36,12 @@
     - nodejs
     - npm
     - nginx
-    - python-pip
+    - python3-pip
+  
   - name: install pymongo
     pip: 
       name: pymongo
+  
   - name: restart mongodb
     become: yes
     become_method: sudo
@@ -40,17 +49,20 @@
       name: mongod
       state: restarted
       daemon-reload: true
+  
   - name: add admin user in mongodb
     mongodb_user:
       database: admin
       name: "{{ mongo_user }}"
       password: "{{ mongo_password }}"
       roles: root
+  
   - name: clone checkbox.io repo
     git:
       repo: "https://github.com/chrisparnin/checkbox.io.git"
       dest: "{{ git_repo_folder }}"
       force: yes
+  
   - name: copy nginx.conf
     become: yes
     become_method: sudo
@@ -58,6 +70,7 @@
       remote_src: true
       src: "{{ git_repo_folder }}/local-conf/nginx.conf"
       dest: /etc/nginx/nginx.conf
+  
   - name: copy local_conf/default
     become: yes
     become_method: sudo
@@ -65,6 +78,7 @@
       remote_src: true
       src: "{{ git_repo_folder }}/local-conf/default"
       dest: /etc/nginx/sites-available/default
+  
   - name: update root path in default file
     become: yes
     become_method: sudo
@@ -72,6 +86,7 @@
       path: /etc/nginx/sites-available/default
       regexp: 'root*'
       line: "root {{ git_repo_folder }}/public_html/;"
+  
   - name: restart nginx
     become: yes
     become_method: sudo

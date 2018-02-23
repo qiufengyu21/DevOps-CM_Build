@@ -3,7 +3,7 @@
 |__Team Members__        |    __UnityID__  |   __Contribution__  |
 -------------------------|-----------------|---------------------|
 |  Karan Jadhav          |                 |                     |
-|  Shashank Jha          |                 |                     |
+|  Shashank Jha          |    sjha5        |  Created ansible script for DO provisioning, checkbox.io deployment and combined with itrust deployment to create one post-action script.                   |
 |  Qiufeng Yu            |      qyu4       |                     |
 |  Bhavik Patel          |                 |                     |
 
