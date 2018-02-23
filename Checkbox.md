@@ -69,7 +69,9 @@ Following are the detailed report regarding steps involved to configure chekbox.
 		
 		- **Nginx**
 
-	8. After we start these services we can go to web browser and we can access the checkbox.io system. We need to go on `{{ ip_adress }}:80` address to access the application. Where `ip_address` is the IP address of the machine on which checkbox.io application is running.
+	8. Access the system on browser
+	
+		After we start these services we can go to web browser and we can access the checkbox.io system. We need to go on `http://{{ ip_address }}:80` address to access the application. Where `ip_address` is the IP address of the machine on which checkbox.io application is running.
 	
 2. **Issues faced**
 
@@ -79,12 +81,12 @@ Following are the detailed report regarding steps involved to configure chekbox.
 
 	From this exercise we learned about setting servers in Nginx and benefits of Nginx over other web servers. Some of the benefits are enlisted below.
 	
-	- Nginx makes website faster as compared to other web servers
+	- **Nginx makes website faster as compared to other web servers.**
 	
-	- In Nginx more concurrent connections are handled as compared to other web servers (Apprx. 4 times more than Apache)
+	- **In Nginx more concurrent connections are handled as compared to other web servers (Apprx. 4 times more than Apache).**
 	
-	- It has support for Load Balancing
+	- **It has support for Load Balancing.**
 	
-	- It is compatible with commonly-used web apps.
+	- **It is compatible with commonly-used web apps.**
 
 [<<< Previous](JenkinsJobBuilder.md) | [Next >>>](ITrust.md)
