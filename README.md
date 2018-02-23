@@ -4,7 +4,7 @@
 -------------------------|-----------------|---------------------|
 |  Karan Jadhav          |                 |                     |
 |  Shashank Jha          |    sjha5        |  Created ansible script for DO provisioning, checkbox.io deployment and combined with itrust deployment to create one post-action script.                   |
-|  Qiufeng Yu            |      qyu4       |                     |
+|  Qiufeng Yu            |      qyu4       | Wrote ansible script for provisioning AWS. Configured and deployed iTrust on AWS automatically using ansible.|
 |  Bhavik Patel          |                 |                     |
 
 ## Screencast(Youtube video)
