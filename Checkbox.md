@@ -73,6 +73,18 @@ Following are the detailed report regarding steps involved to configure chekbox.
 	
 2. **Issues faced**
 
+	Setting up checkbox.io was fairly simple process. During implementation of automating these tasks, we didn't face any major issues as such. 
+
 3. **Learnings**
+
+	From this exercise we learned about setting servers in Nginx and benefits of Nginx over other web servers. Some of the benefits are enlisted below.
+	
+	- Nginx makes website faster as compared to other web servers
+	
+	- In Nginx more concurrent connections are handled as compared to other web servers (Apprx. 4 times more than Apache)
+	
+	- It has support for Load Balancing
+	
+	- It is compatible with commonly-used web apps.
 
 [<<< Previous](JenkinsJobBuilder.md) | [Next >>>](ITrust.md)
