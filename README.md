@@ -1,5 +1,4 @@
-# CSC519 Project
-# Configuration Management and Build Milestone
+# CSC519 Project <br/> Configuration Management and Build Milestone
 ## Team Member and Contributions
 |__Team Members__        |    __UnityID__  |   __Contribution__  |
 -------------------------|-----------------|---------------------|
