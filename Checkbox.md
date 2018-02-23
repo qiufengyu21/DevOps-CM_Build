@@ -57,7 +57,7 @@ Following are the detailed report regarding steps involved to configure chekbox.
 		
 	6. Run NPM Install
 	
-		We need to install dependencies which are required to run our node application. For that we run `npm install` command from the directory where our `package.json` file is present, i.e. {{ repo location}}/checkbox.io/server-side/site/ directory.
+		We need to install dependencies which are required to run our node application. For that we run `npm install` command from the directory where our `package.json` file is present, i.e. `{{ repo location}}/checkbox.io/server-side/site/` directory. Here `repo_location` is the location where we cloned the checkbox.io repo.
 		
 	7. Starting services
 	
