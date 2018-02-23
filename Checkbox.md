@@ -15,15 +15,15 @@ Following are the detailed report regarding steps involved to configure chekbox.
 		
 		To setup checkbox.io application we need few softwares to be installed on our machine. So as a first step we installed all these softwares. Following is the list of softwares.
 		
-		- NodeJS
+		- **NodeJS**
 		
-		- NPM
+		- **NPM**
 		
-		- MongoDB
+		- **MongoDB**
 		
-		- Git
+		- **Git**
 		
-		- Nginx
+		- **Nginx**
 	
 	2. Clone repo of checkbox.io
 	
@@ -37,19 +37,19 @@ Following are the detailed report regarding steps involved to configure chekbox.
 	
 		Following environment variables are used in the checkbox.io application. We need to setup these variables with proper values to ensure the system runs without issues.
 		
-		- MONGO_PORT: This variable contains the value of port on which node application needs to be started. 
+		- **MONGO_PORT:** This variable contains the value of port on which node application needs to be started. 
 		
-		- MONGO_IP: This is IP adress of machine on which MongoDB service is running.
+		- **MONGO_IP:** This is IP adress of machine on which MongoDB service is running.
 		
-		- MONGO_USER: This variable hold the username of the MongoDB user. This must be same as the username of user we created in above step.
+		- **MONGO_USER:** This variable hold the username of the MongoDB user. This must be same as the username of user we created in above step.
 		
-		- MONGO_PASSWORD: This variable is for password for the MONGO_USER.
+		- **MONGO_PASSWORD:** This variable is for password for the MONGO_USER.
 		
-		- MAIL_USER: This is a email account username. 
+		- **MAIL_USER:** This is a email account username. 
 		
-		- MAIL_PASSWORD: Password for above email account.
+		- **MAIL_PASSWORD:** Password for above email account.
 		
-		- MAIL_SMTP: SMPTP server used by the above email service provider.
+		- **MAIL_SMTP:** SMPTP server used by the above email service provider.
 		
 	5. Copy nginx setup files from repo
 
@@ -63,11 +63,11 @@ Following are the detailed report regarding steps involved to configure chekbox.
 	
 		After we have executed all above steps we are ready to start our application. For that we need to start following services in given order.
 		
-		- MongoDB Service
+		- **MongoDB Service**
 		
-		- Node Application
+		- **Node Application**
 		
-		- Nginx
+		- **Nginx**
 
 	8. After we start these services we can go to web browser and we can access the checkbox.io system. We need to go on {{ ip_adress }}:80 adress to access the application. Wheer ip_address is the ip of the machine on which we setup checkbox.io application.
 	
