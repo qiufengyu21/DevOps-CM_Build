@@ -5,7 +5,7 @@
 Configuring iTrust
 ----------------------------------
 
-Following are the detailed report regarding steps involved to configure iTrust application. We have also included lessons learned and issues we faced during the implementation.
+Following are the detailed report regarding steps involved to configure iTrust application. We have also included lessons learned and issues we faced during the implementation. Ansible playbook to setup iTrust is available [here.](itrust-playbook.yml).
 
 1. **Steps to buid iTrust**
 
