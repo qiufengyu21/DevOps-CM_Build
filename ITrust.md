@@ -7,10 +7,10 @@ Configuring iTrust
 
 Following are the detailed report regarding steps involved to configure iTrust application. We have also included lessons learned and issues we faced during the implementation.
 
-1. Steps to buid iTrust
+1. **Steps to buid iTrust**
 
-2. Issues faced
+2. **Issues faced**
 
-3. Learnings
+3. **Learnings**
 
 [<<< Previous](Checkbox.md) | [Next >>>](Team.md)
