@@ -6,7 +6,7 @@
     - jenkins_home: "/var/lib/jenkins"
     - jenkins_user: "jenkins"
     - admin_password: "admin"
-    - admin_token: "7913bc559f169b4bcfc599360ce4d934"
+    - admin_token: "9c19152ac228a2f53b6cb0157bb28a02"
     - home_dir: "/home/vagrant/jenkins"
     - jenkins_ip: 127.0.0.1
     - jenkins_port: 8080
@@ -15,13 +15,18 @@
     # INSTALL
     - name: install pip
       apt:
-        name: "{{ item }}"
-      with_items:
-        - python-pip
+        name: python-pip
 
-#        - python3-jenkins
-#        - python3-lxml
-#        - python3-setuptools
+    - name: add key nodejs
+      shell: "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 68576280"
+    - name: add repo for nodejs
+      apt_repository:
+        repo: 'deb https://deb.nodesource.com/node_7.x {{ ansible_distribution_release }} main'
+        update_cache: yes
+    - name: install nodejs
+      apt:
+        name: nodejs
+
     - name: install jenkins job builder
       pip:
         name: jenkins-job-builder
@@ -60,6 +65,11 @@
         chdir: "{{ jenkins_home }}"
       register: output
 
-    - name: say what
-      debug:
-        var: output
+    - name: Run build for checkboxio
+      uri:
+        url: "http://{{ jenkins_ip }}:{{ jenkins_port }}/job/checkboxio/build?token={{ admin_token }}"
+        method: POST
+        user: "admin"
+        password: "{{ admin_password }}"
+        force_basic_auth: yes
+        status_code: 201
