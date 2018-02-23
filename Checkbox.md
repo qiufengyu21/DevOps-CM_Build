@@ -5,7 +5,7 @@
 Configuring chekbox.io
 ----------------------------------
 
-Following are the detailed report regarding steps involved to configure chekbox.io application. We have also included lessons learned and issues we faced during the implementation. Ansible playbook to setup checkbox.io is available [here.](checkbox-playbook.yml).
+Following are the detailed report regarding steps involved to configure chekbox.io application. We have also included lessons learned and issues we faced during the implementation. Ansible playbook to setup checkbox.io is available [here.](checkbox-playbook.yml)
 
 1. **Steps to buid chekbox.io**
 
