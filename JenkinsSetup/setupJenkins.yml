@@ -19,84 +19,80 @@
     jenkins_params:
       url_username: "{{ jenkins_admin_username }}"
       validate_certs: no
-    groovy_file_path: /home/vagrant/JenkinsSetup
+    # update file path 
+    groovy_file_path: /vagrant_data/JenkinsSetup
 
   tasks:
-      - name: Install Java 8 PreReq
-        apt: name=python-software-properties
+      - name: add jenkins public key
         become: yes
+        become_method: sudo
+        apt_key:
+          url: http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key
+          state: present
 
-      - name: Add Java 8 Repo
-        apt_repository: repo='ppa:webupd8team/java'
+      - name: add jenkins to trusted sources list
         become: yes
-
-      - name: Accept Oracle License
-        debconf: name=oracle-java8-installer question=shared/accepted-oracle-license-v1-1 vtype=select value=true
-        become: yes
-
-      - name: Install Java 8
-        apt: name=oracle-java8-installer force=yes update_cache=yes cache_valid_time=3600
-        become: yes
+        become_method: sudo
+        apt_repository:
+          repo: 'deb http://pkg.jenkins-ci.org/debian binary/'
+          state: present
 
       - name: Update apt package
         become: yes
-        action: apt update_cache=yes
-
-      - name: Install Maven
-        become: yes
-        apt: pkg=maven state=present update_cache=yes cache_valid_time=3600
-
-      - name: Download Jenkins
-        shell: wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
-        become: yes
-
-      - name: Update jenkins source list
-        shell: sh -c 'echo deb http://pkg.jenkins-ci.org/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
-        become: yes
-
-      - name: Update apt package
-        become: yes
-        action: apt update_cache=yes
+        become_method: sudo
+        apt:
+          update_cache: yes
 
       - name: Install Jenkins
-        apt: pkg=jenkins state=present install_recommends=yes update_cache=yes cache_valid_time=3600
         become: yes
+        become_method: sudo
+        apt: pkg= {{ item }} state=present install_recommends=yes
+        with_items:
+        - jenkins
+        - maven
 
       - name: Configure JVM Args
+        become: yes
+        become_method: sudo
         lineinfile:
           dest: /etc/default/jenkins
           regexp: '^JAVA_ARGS='
           line: "{{ jenkins_java_args }}"
-        become: yes
-
+    
       - name: Create Groovy Script directory
+        become: yes
+        become_method: sudo
         file:
           path: "{{ jenkins_home }}/init.groovy.d"
           state: directory
           mode: 0755
-        become: yes
 
       - name: Copy Groovy Script for default user creation
+        become: yes
+        become_method: sudo
         template:
           force: yes
           src: "{{ groovy_file_path }}/jenkins_script.groovy.j2"
           dest: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
           mode: 0755
-        become: yes
 
       - name: Restart jenkins
-        service: name=jenkins state=restarted
         become: yes
+        become_method: sudo
+        service:
+          name: jenkins
+          state: restarted
 
       - name: Wait while Jenkins starts
         wait_for: port={{ jenkins_http_port }} delay=30
 
       - name: Remove Groovy Script
+        become: yes
+        become_method: sudo
         file:
           path: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
           state: absent
-        become: yes
-
+       
       - name: Disable setup wizard
         jenkins_script:
           script: |
@@ -109,11 +105,15 @@
           password: "{{ jenkins_admin_password }}"
 
       - name: Get client JAR file
+        become: yes
+        become_method: sudo
         get_url:
           url: http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/jnlpJars/jenkins-cli.jar
           dest: /home/vagrant/
-          mode: 755
-        become: yes
+          owner: vagrant
+          group: vagrant
+          mode: u=rwx,g=r,o=r
+          force: yes
 
       - name: Install Jenkins Plugins
         jenkins_plugin:
@@ -123,15 +123,12 @@
           url: "http://{{jenkins_hostname}}:{{jenkins_http_port}}"
         with_items: "{{ plugins }}"
 
-      - name: Checking Jenkins State
+      - name: Restart Jenkins
+        become: yes
+        become_method: sudo
         service:
           name: jenkins
-          state: started
-        become: yes
-
-      - name: Restart Jenkins
-        service: name=jenkins state=restarted
-        become: yes
+          state: restarted
 
       - name: Wait while Jenkins starts
         wait_for:

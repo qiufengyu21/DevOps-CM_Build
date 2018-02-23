@@ -33,7 +33,7 @@
     digital_ocean:
       state: present
       command: droplet
-      name: droplet-two
+      name: droplet-one
       unique_name: yes
       size_id: 1gb
       region_id: sgp1
