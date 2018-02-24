@@ -5,7 +5,7 @@
 Configuring Jenkins Server
 ----------------------------------
 
-Following are the detailed report regarding steps involved to configure Jenkins server. We have also included lessons learned and issues we faced during the implementation. Ansible playbook to setup and configure Jenkins server is available [here.](/JenkinsSetup/setupJenkins.yml)
+Following are the detailed report regarding steps involved to configure Jenkins server. We have also included lessons learned and issues we faced during the implementation. Ansible playbook to setup and configure Jenkins server is available [here.](/JenkinsSetup/setupJenkins_trusty.yml)
 
 1. **Steps to configure Jenkins Server**
 
@@ -29,7 +29,7 @@ Following are the detailed report regarding steps involved to configure Jenkins 
 		
 	4. **Create Groovy Scripts**
 	
-		After this we create [groovy scripts.](/JenkinsSetup/setupJenkins.yml) Which will create a default user with provided username and password. And then we copy this script to `/var/lib/jenkins/init.groovy.d/basic-security.groovy` location. After this we restart jenkins service.
+		After this we create [groovy scripts.](/JenkinsSetup/jenkins_script.groovy.j2) Which will create a default user with provided username and password. And then we copy this script to `/var/lib/jenkins/init.groovy.d/basic-security.groovy` location. After this we restart jenkins service.
 		
 	5. **Change install state of jenkins**
 		
