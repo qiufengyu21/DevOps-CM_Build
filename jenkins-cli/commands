@@ -1,0 +1,2 @@
+java -jar jenkins-cli.jar -s http://192.168.33.12:8080 build itrust2 --username admin --password admin
+java -jar jenkins-cli.jar -s http://192.168.33.12:8080 create-job itrust2 --username admin --password admin < itrust2.xml
