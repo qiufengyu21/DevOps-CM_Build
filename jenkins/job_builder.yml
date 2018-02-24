@@ -6,7 +6,7 @@
     - jenkins_home: "/var/lib/jenkins"
     - jenkins_user: "jenkins"
     - admin_password: "admin"
-    - admin_token: "9c19152ac228a2f53b6cb0157bb28a02"
+    - admin_token: "2182012094d7d8e430cf1010145ecc16"
     - home_dir: "/home/vagrant/jenkins"
     - jenkins_ip: 127.0.0.1
     - jenkins_port: 8080
@@ -67,9 +67,12 @@
 
     - name: Run build for checkboxio
       uri:
-        url: "http://{{ jenkins_ip }}:{{ jenkins_port }}/job/checkboxio/build?token={{ admin_token }}"
+        url: "http://{{ jenkins_ip }}:{{ jenkins_port }}/job/{{ item }}/build?token={{ admin_token }}"
         method: POST
         user: "admin"
         password: "{{ admin_password }}"
         force_basic_auth: yes
         status_code: 201
+      with_items:
+        - checkboxio
+        - itrsut2
