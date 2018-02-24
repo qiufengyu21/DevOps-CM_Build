@@ -3,6 +3,8 @@
   connection: local
 
   vars_prompt:
+    - name: "jenkins_admin_username"
+      prompt: "Enter jenkins admin username"
     - name: "jenkins_admin_password"
       prompt: "Enter jenkins admin password"
 
@@ -16,8 +18,6 @@
     jenkins_home: /var/lib/jenkins
     jenkins_hostname: 127.0.0.1
     jenkins_http_port: 8080
-    jenkins_admin_username: admin
-#    jenkins_admin_password: admin
     jenkins_jar_location: /home/vagrant/jenkins-cli.jar
     jenkins_default_file: /etc/default/jenkins
     jenkins_params:

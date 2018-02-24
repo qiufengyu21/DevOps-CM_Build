@@ -4,7 +4,7 @@ import hudson.security.*
 import hudson.security.csrf.DefaultCrumbIssuer
 def instance = Jenkins.getInstance()
 def hudsonRealm = new HudsonPrivateSecurityRealm(false)
-hudsonRealm.createAccount("admin","{{ jenkins_admin_password }}")
+hudsonRealm.createAccount("{{ jenkins_admin_username }}","{{ jenkins_admin_password }}")
 instance.setSecurityRealm(hudsonRealm)
 def strategy = new hudson.security.FullControlOnceLoggedInAuthorizationStrategy()
 strategy.setAllowAnonymousRead(true)
