@@ -18,19 +18,21 @@
   apt: pkg={{ item }} state=installed update_cache=true cache_valid_time=36000
   with_items:
     - mysql-server
+- name: edit my.cnf file
+  become: yes
+  become_method: sudo
+  lineinfile:
+    path: /etc/mysql/my.cnf
+    line: '[mysql]'
+    state: absent
 - name: edit my.cnf file add mysql
   become: yes
   become_method: sudo
-  lineinfile:
+  blockinfile:
     path: /etc/mysql/my.cnf
-    line: "[mysql]"
-- name: edit my.cnf file add skip grant tables
-  become: yes
-  become_method: sudo
-  lineinfile:
-    path: /etc/mysql/my.cnf
-    line: "skip-grant-tables"
-    insertafter: "[mysql]"
+    block: |
+      [mysql]
+      skip-grant-tables
 - name: restart mysql
   become: yes
   become_method: sudo
