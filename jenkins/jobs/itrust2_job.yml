@@ -4,8 +4,8 @@
     project-type: freestyle
     scm:
       - git:
-          url: 'https://github.ncsu.edu/engr-csc326-staff/iTrust2-v2.git'
+          url: 'https://kjadhav:Pass@1234@github.ncsu.edu/engr-csc326-staff/iTrust2-v2.git'
           branches:
             - origin/master
     builders:
-      - shell: 'mvn clean test verify checkstyle:checkstyle'
+      - shell: 'cd iTrust2 && mv src/main/java/email.properties.template src/main/java/email.properties.template && mv src/main/java/db.properties.template src/main/java/db.properties.template && mv src/main/resources/hibernate.properties.template src/main/resources/hibernate.properties &&  sudo mvn process-test-classes && sudo mvn clean test verify checkstyle:checkstyle'
