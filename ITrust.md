@@ -31,7 +31,7 @@ Following are the detailed report regarding steps involved to configure iTrust a
 		
 	4. **Set Property Files**
 	
-		After we are done with cloning the repository we modify <br>`{{ repo location }}/iTrust2/src/main/resources/hibernate.properties.template` and <br>`{{ repo location }}/iTrust2/src/main/java/email.properties.template` files to reflect the password of root user which we set above. 
+		After we are done with cloning the repository we modify <br>`{{ repo location }}/iTrust2/src/main/resources/hibernate.properties.template` <br>/home/ubuntu/iTrust2-v2/iTrust2/src/main/java/db.properties.template <br> and <br>`{{ repo location }}/iTrust2/src/main/java/email.properties.template` files to reflect the password of root user which we set above. 
 		
 		Here `repo_location` is the location where we cloned the iTrust repo.
 		
