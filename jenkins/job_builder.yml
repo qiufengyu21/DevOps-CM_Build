@@ -42,6 +42,27 @@
 #        name: jenkins
 #        state: restarted
 
+  - name: Install latest version of maven, mysql and java
+    become_method: sudo
+    apt: pkg={{ item }} state=installed update_cache=true cache_valid_time=36000
+    with_items:
+    - mysql-server
+
+  - name: edit my.cnf file
+    become_method: sudo
+    lineinfile:
+      path: /etc/mysql/my.cnf
+      line: "{{ item }}"
+    with_items:
+    - "[mysqld]"
+    - "skip-grant-tables"
+
+  - name: restart mysql
+    become_method: sudo
+    service:
+      name: mysql
+      state: restarted
+
     # COPY JOBS
     - name: create jenkins_jobs folder
       file:
