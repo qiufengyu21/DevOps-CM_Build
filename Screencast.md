@@ -6,8 +6,9 @@ Screencast
 ----------------------------------
 
 Screencast for the milestone has been uploaded at below location.
-
+/*:
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/XXXXXXXXXXX/0.jpg)](https://www.youtube.com/watch?v=XXXXXXXXXX)
+*/
 [Screencast link](http://tiny.cc/screencast)
 
 [<<< Previous](Team.md)
