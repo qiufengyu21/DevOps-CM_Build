@@ -2,12 +2,12 @@
 
 [Configuring iTrust](ITrust.md) | [Team Details](Team.md) | [Screencast](Screencast.md)
 
-Configuring chekbox.io
+Configuring checkbox.io
 ----------------------------------
 
-Following are the detailed report regarding steps involved to configure chekbox.io application. We have also included lessons learned and issues we faced during the implementation. Ansible playbook to setup checkbox.io is available [here.](checkbox-playbook.yml)
+Following are the detailed report regarding steps involved to configure checkbox.io application. We have also included lessons learned and issues we faced during the implementation. Ansible playbook to setup checkbox.io is available [here.](checkbox-playbook.yml)
 
-1. **Steps to buid chekbox.io**
+1. **Steps to buid checkbox.io**
 
 	We performed following steps to setup checkbox.io application.
 	
