@@ -55,13 +55,7 @@ Following are the detailed report regarding steps involved to configure iTrust a
 	
 	1. **Insufficient Memory**
 	
-		When we ran the ansible script on VM configured manually it rant successfully. But when we ran the same script on a VM provisioned using digital ocean, application was failing ans it was not starting up. We got following error.
-	
-		```
-		Trying src/main/webapp", "[INFO] webAppSourceDirectory /home/ubuntu/iTrust2-v2/iTrust2/src/main/webapp does not exist. Trying /home/ubuntu/iTrust2-v2/iTrust2/target/webapp-tmp", "[INFO] Reload Mechanic: automatic", "[INFO] Classes = /home/ubuntu/iTrust2-v2/iTrust2/target/classes", "[INFO] Context path = /iTrust2", "[INFO] Tmp directory = /home/ubuntu/iTrust2-v2/iTrust2/target/tmp"
-		```
-	
-		We understood that VM was crashing because of insufficient memory. So we increased RAM for provisioned VM from 512 MB to 1024 MB. After making this change we could solve the issue mentioned above.
+		When we ran the ansible script on VM configured manually it rant successfully. But when we ran the same script on a VM provisioned using digital ocean, application was failing ans it was not starting up.	As we start running application, the command got killed multiple times. From this we understood that VM was crashing because of insufficient memory. So we increased RAM for provisioned VM from 512 MB to 1024 MB. After making this change we could solve the issue mentioned above.
 		
 3. **Learnings**
 
