@@ -31,9 +31,7 @@ Following are the detailed report regarding steps involved to configure iTrust a
 		
 	4. **Set Property Files**
 	
-		After we are done with cloning the repository we modify <br>`{{ repo location }}/iTrust2/src/main/resources/hibernate.properties.template` <br>/home/ubuntu/iTrust2-v2/iTrust2/src/main/java/db.properties.template <br> and <br>`{{ repo location }}/iTrust2/src/main/java/email.properties.template` files to reflect the password of root user which we set above. 
-		
-		Here `repo_location` is the location where we cloned the iTrust repo.
+		After we are done with cloning the repository we modify <br>`{{ repo location }}/iTrust2/src/main/resources/hibernate.properties.template` <br>/home/ubuntu/iTrust2-v2/iTrust2/src/main/java/db.properties.template <br> and <br>`{{ repo location }}/iTrust2/src/main/java/email.properties.template` files to reflect the password of root user which we set above. Here `repo_location` is the location where we cloned the iTrust repo.
 		
 	6. **Download Tomcat**
 	
@@ -41,11 +39,11 @@ Following are the detailed report regarding steps involved to configure iTrust a
 		
 	7. **Build Database**
 	
-		We need to build database to have some sample data which will be used in application. To build database and create sample data we run `mvn process-test-classes` command from `{{ repo location }}/iTrust2` directory. Here `repo_location` is the location where we cloned the iTrust repo.
+		We need to build database to have some sample data which will be used in application. To build database and create sample data we run `mvn process-test-classes` command from ``{{ repo location }}/iTrust2` directory. Here `repo_location` is the location where we cloned the iTrust repo.
 
 	8. **Run iTrust**
 	
-		After we followed all these steps we need to start iTrust application. We do this by running `nohup bash -c "mvn jetty:run` command from `{{ repo location }}/iTrust2` directory. Here `repo_location` is the location where we cloned the iTrust repo.
+		After we followed all these steps we need to start iTrust application. We do this by running `nohup bash -c "mvn jetty:run` command from ``{{ repo location }}/iTrust2` directory. Here `repo_location` is the location where we cloned the iTrust repo.
 		
 	9. **Access the system on browser**
 	
@@ -59,10 +57,7 @@ Following are the detailed report regarding steps involved to configure iTrust a
 	
 		When we ran the ansible script on VM configured manually it rant successfully. But when we ran the same script on a VM provisioned using digital ocean, application was failing ans it was not starting up. We got following error.
 	
-		
-		
-		
-		`
+		```
 		Trying src/main/webapp", "[INFO] webAppSourceDirectory /home/ubuntu/iTrust2-v2/iTrust2/src/main/webapp does not exist. Trying /home/ubuntu/iTrust2-v2/iTrust2/target/webapp-tmp", "[INFO] Reload Mechanic: automatic", "[INFO] Classes = /home/ubuntu/iTrust2-v2/iTrust2/target/classes", "[INFO] Context path = /iTrust2", "[INFO] Tmp directory = /home/ubuntu/iTrust2-v2/iTrust2/target/tmp"
 		```
 	
