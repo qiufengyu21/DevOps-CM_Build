@@ -9,3 +9,7 @@
             - origin/master
     builders:
       - shell: 'npm install'
+    publishers:
+      - post-tasks:
+          script: |
+            echo "Here goes the task script"
