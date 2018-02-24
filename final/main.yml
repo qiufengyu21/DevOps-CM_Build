@@ -18,15 +18,15 @@
     jenkins_home: /var/lib/jenkins
     jenkins_hostname: 127.0.0.1
     jenkins_http_port: 8080
-    jenkins_jar_location: /home/vagrant/jenkins-cli.jar
+    jenkins_jar_location: "{{ ansible_env.HOME }}/jenkins-cli.jar"
     jenkins_default_file: /etc/default/jenkins
     jenkins_params:
       url_username: "{{ jenkins_admin_username }}"
       validate_certs: no
-    groovy_file_path: /home/vagrant/final
+    groovy_file_path: "{{ playbook_dir }}/templates"
 
   tasks:
-    - import_tasks: prereqs.yml
-    - import_tasks: install.yml
-    - import_tasks: setup.yml
-    - import_tasks: plugins.yml
+    - import_tasks: tasks/prereqs.yml
+    - import_tasks: tasks/install.yml
+    - import_tasks: tasks/setup.yml
+    - import_tasks: tasks/plugins.yml

@@ -15,9 +15,9 @@
   with_items: "{{ plugins }}"
 
 - name: Checking Jenkins State
-    service:
-      name: jenkins
-      state: started
+  service:
+    name: jenkins
+    state: started
   become: yes
 
 - name: Restart Jenkins
