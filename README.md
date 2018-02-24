@@ -1,4 +1,4 @@
-[Configuring Jenkins Server](Jenkins.md) | [Build Jobs](JenkinsJobBuilder.md) | [Configuring chekbox.io](Checkbox.md)
+[Configuring Jenkins Server](Jenkins.md) | [Build Jobs](JenkinsJobBuilder.md) | [Configuring checkbox.io](Checkbox.md)
 
 [Configuring iTrust](ITrust.md) | [Team Details](Team.md) | [Screencast](Screencast.md)
 
