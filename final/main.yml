@@ -7,6 +7,12 @@
       prompt: "Enter jenkins admin username"
     - name: "jenkins_admin_password"
       prompt: "Enter jenkins admin password"
+    - name: "DOTOKEN"
+      prompt: "Enter DO token"
+    - name: "GITUSER"
+      prompt: "Enter github.ncsu.edu user"
+    - name: "GITAUTH"
+      prompt: "Enter github.ncsu.edu auth token"
 
   vars:
     plugins:
@@ -24,8 +30,10 @@
       url_username: "{{ jenkins_admin_username }}"
       validate_certs: no
     groovy_file_path: "{{ playbook_dir }}/templates"
+    dir: "{{ ansible_env.HOME }}/jobs"
 
   tasks:
+    - import_tasks: tasks/environment.yml
     - import_tasks: tasks/prereqs.yml
     - import_tasks: tasks/install.yml
     - import_tasks: tasks/setup.yml
