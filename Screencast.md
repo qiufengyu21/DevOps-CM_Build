@@ -7,6 +7,6 @@ Screencast
 
 Screencast for the milestone has been uploaded at below location.
 
-[Screencast link](http://tiny.cc/screencast)
+[Screencast link](https://youtu.be/kjhCsOvxeS0)
 
 [<<< Previous](Team.md)
