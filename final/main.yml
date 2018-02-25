@@ -30,7 +30,7 @@
       url_username: "{{ jenkins_admin_username }}"
       validate_certs: no
     groovy_file_path: "{{ playbook_dir }}/templates"
-    dir: "{{ ansible_env.HOME }}/jobs"
+    dir: "{{ playbook_dir }}/jobs"
 
   tasks:
     - import_tasks: tasks/environment.yml
