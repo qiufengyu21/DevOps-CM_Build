@@ -13,7 +13,7 @@
     MONGO_PORT: 3002
     MONGO_IP: 127.0.0.1
     MONGO_USER: "{{ mongo_user }}"
-    MONGO_PASSWORD: "{{ mongo_password }}"
+    MONGO_PASSWORD: "{{ mongo_password }}" 
   
   tasks:
   
@@ -51,14 +51,6 @@
       password: "{{ mongo_password }}"
       roles: root
   
-  - name: restart mongodb
-    become: yes
-    become_method: sudo
-    service:
-      name: mongod
-      state: restarted
-      daemon-reload: true
-  
   - name: clone checkbox.io repo
     git:
       repo: "https://github.com/chrisparnin/checkbox.io.git"
@@ -88,6 +80,22 @@
       path: /etc/nginx/sites-available/default
       regexp: 'root*'
       line: "root {{ git_repo_folder }}/public_html/;"
+  
+  - name: restart mongodb
+    become: yes
+    become_method: sudo
+    service:
+      name: mongod
+      state: restarted
+      daemon-reload: true
+  
+  - name: Install Node Modules
+    shell: cd {{ git_repo_folder }}/server-side/site ; npm install
+    become: yes
+  
+  - name: Start Node JS
+    shell: nohup mvn spring-boot:run &
+    become: yes
   
   - name: restart nginx
     become: yes
