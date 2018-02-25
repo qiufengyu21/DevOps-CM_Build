@@ -94,7 +94,7 @@
     become: yes
   
   - name: Start Node JS
-    shell: nohup mvn spring-boot:run &
+    shell: nohup node server.js &
     become: yes
   
   - name: restart nginx
