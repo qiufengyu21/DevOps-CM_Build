@@ -3,8 +3,6 @@
   get_url:
     url: http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/jnlpJars/jenkins-cli.jar
     dest: /home/vagrant/
-    mode: 755
-  become: yes
 
 - name: Install Jenkins Plugins
   jenkins_plugin:
