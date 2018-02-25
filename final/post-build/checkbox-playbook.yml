@@ -7,7 +7,7 @@
   vars:
     mongo_user: admin
     mongo_password: admin123 
-    git_repo_folder: "{{ ansible_env.HOME }}/checkbox.io"
+    git_repo_folder: "/home/vagrant/checkbox.io"
     ansible_python_interpreter: /usr/bin/python3
   environment:
     MONGO_PORT: 5000

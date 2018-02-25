@@ -40,3 +40,4 @@
     - import_tasks: tasks/plugins.yml
     - import_tasks: tasks/clideps.yml
     - import_tasks: tasks/appdeps.yml
+    - import_tasks: tasks/jobs.yml
